@@ -1,4 +1,4 @@
 import { combineReducers } from "redux";
-import transferReducer from "./transfer/transferReducer";
+import { transferReducer } from "./reducer";
 
 export const rootReducer = combineReducers({ transfer: transferReducer });
