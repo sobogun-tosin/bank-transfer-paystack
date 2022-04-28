@@ -1,0 +1,50 @@
+.TransferForm {
+  &_form {
+    display: grid;
+    padding: 10px;
+
+    &_name {
+      text-align: center;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    &_group {
+      margin: 10px 0;
+      label {
+        opacity: 0.5;
+      }
+
+      &_input {
+        width: 90%;
+        padding: 7px 15px;
+        outline: none;
+        border: 2px solid transparent;
+        border-radius: 6px;
+        margin-top: 10px;
+        font-size: 1rem;
+      }
+      select {
+        width: 95%;
+      }
+    }
+
+    &_error {
+      text-align: center;
+      color: #ff4646;
+      font-size: 13px;
+    }
+
+    &_btn {
+      margin-top: 20px;
+
+      &:hover {
+        background-color: #d6d6d659;
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+      }
+    }
+  }
+}

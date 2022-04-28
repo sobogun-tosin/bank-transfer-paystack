@@ -36,7 +36,7 @@ const TransferForm = () => {
   return (
     <div className="transfer transaction-content">
       {list.map((item: any, id: number) => {
-        const { customer, description, amount, status } = item;
+        const { customer, amount, status } = item;
         return (
           <div className="transaction-details" key={id}>
             <h4>
