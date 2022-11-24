@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import TransferForm from "./components/TransferForm/TransferForm";
-import Transaction from "./components/TransferForm";
+import TransferForm from "./components/TransferForm";
+import TransferHistory from "./components/TransferHistory";
 import Home from "./pages/Home";
 import ErrorPage from "./pages/404";
 
@@ -12,7 +12,7 @@ function App() {
         <Home />
         <Switch>
           <Route path={"/transfer"} exact component={TransferForm} />
-          <Route path={"/transfer_history"} exact component={Transaction} />
+          <Route path={"/transfer_history"} exact component={TransferHistory} />
           <Route path={"*"} component={ErrorPage} />
         </Switch>
       </BrowserRouter>

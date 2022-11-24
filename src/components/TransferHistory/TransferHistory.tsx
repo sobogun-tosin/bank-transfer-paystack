@@ -11,9 +11,9 @@ const getLocalStorage = () => {
 };
 
 const TransferHistory = () => {
-  const [list, setList] = React.useState(getLocalStorage());
+  const list = getLocalStorage();
   return (
-    <div className={styles.TransferHistory}>
+    <section className={styles.TransferHistory}>
       {list.length === 0 ? (
         <h3 className={styles.TransferHistory}>No Transfer History</h3>
       ) : (
@@ -24,7 +24,7 @@ const TransferHistory = () => {
           {list.map((item: any, id: number) => {
             const { customer, amount, status } = item;
             return (
-              <div className="transaction-details" key={id}>
+              <div className={styles.TransferHistory_details} key={id}>
                 <h4>
                   Name: <span>{customer.name}</span>
                 </h4>
@@ -48,7 +48,7 @@ const TransferHistory = () => {
           })}
         </>
       )}
-    </div>
+    </section>
   );
 };
 

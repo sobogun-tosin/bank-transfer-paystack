@@ -1,2 +1,19 @@
 .TransferHistory {
+  min-height: 100px;
+
+  &_details {
+    padding: 10px;
+    border: 3px solid #afaeae;
+    border-radius: 8px;
+    margin: 10px auto;
+    text-align: start;
+
+    h4 {
+      margin: 5px;
+    }
+    span {
+      color: #414040;
+      font-family: "Courier New", Courier, monospace;
+    }
+  }
 }
