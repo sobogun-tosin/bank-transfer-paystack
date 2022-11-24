@@ -21,7 +21,7 @@ const Home = () => {
             <h4>Create Transfer</h4>
           </div>
         </Link>
-        <Link to={"/transaction"} className={styles.Home_container_links}>
+        <Link to={"/transfer_history"} className={styles.Home_container_links}>
           <div>
             <CalendatIcon />
             <h4>Transfer History</h4>

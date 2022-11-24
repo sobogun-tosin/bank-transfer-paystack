@@ -1,11 +1,6 @@
 import React, { FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getBankList,
-  getRecipient,
-  resolveAccount,
-  makeTransfer,
-} from "../../redux/action";
+import { getBankList, getRecipient, resolveAccount } from "../../redux/action";
 import { RootState } from "../../redux/store";
 import { ResolveAccount } from "../../types";
 import PageLoader from "../PageLoader";

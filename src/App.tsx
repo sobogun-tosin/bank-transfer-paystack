@@ -12,7 +12,7 @@ function App() {
         <Home />
         <Switch>
           <Route path={"/transfer"} exact component={TransferForm} />
-          <Route path={"/transaction"} exact component={Transaction} />
+          <Route path={"/transfer_history"} exact component={Transaction} />
           <Route path={"*"} component={ErrorPage} />
         </Switch>
       </BrowserRouter>
