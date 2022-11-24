@@ -1,4 +1,5 @@
-import React, { FormEvent } from "react";
+import { Formik } from "formik";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBankList, getRecipient, resolveAccount } from "../../redux/action";
 import { RootState } from "../../redux/store";
@@ -7,6 +8,7 @@ import PageLoader from "../PageLoader";
 import CreateTransferForm from "./CreateTransferForm";
 
 import styles from "./TransferForm.module.scss";
+import { accountVerificationFormValidationSchema } from "./validator";
 
 interface TransferFormState {
   bank: string;
@@ -22,35 +24,28 @@ const TransferForm: React.FC = () => {
   const transfer = useSelector((state: RootState) => state.transfer);
   const { banks, loading, resolve_account, error, recipient } = transfer;
 
-  const initialState: TransferFormState = {
+  const initialValues: TransferFormState = {
     bank: "",
     account_number: "",
   };
 
-  const [state, setState] = React.useState<TransferFormState>(initialState);
-
-  const handleChange = (newState: Partial<TransferFormState>) => {
-    setState((state) => ({ ...state, ...newState }));
-  };
-
-  const handleResolveAccount = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleResolveAccount = async (values: TransferFormState) => {
     const formData: ResolveAccount = {
-      account_number: state.account_number,
-      bank_code: state.bank,
+      account_number: values.account_number,
+      bank_code: values.bank,
     };
 
-    dispatch(resolveAccount(formData));
-    fetchRecipient();
+    await dispatch(resolveAccount(formData));
+    await fetchRecipient(values);
   };
 
-  const fetchRecipient = () => {
+  const fetchRecipient = async (values: TransferFormState) => {
     const formData = {
       name: resolve_account?.account_name,
-      account_number: state.account_number,
-      bank_code: state.bank,
+      account_number: values.account_number,
+      bank_code: values.bank,
     };
-    dispatch(getRecipient(formData));
+    await dispatch(getRecipient(formData));
   };
 
   React.useEffect(() => {
@@ -62,57 +57,81 @@ const TransferForm: React.FC = () => {
       {loading ? (
         <PageLoader />
       ) : (
-        <form
-          className={styles.TransferForm_form}
+        <Formik
+          initialValues={initialValues}
           onSubmit={handleResolveAccount}
+          validationSchema={accountVerificationFormValidationSchema}
+          enableReinitialize
+          validateOnBlur={false}
         >
-          <div className={styles.TransferForm_form_group}>
-            <label htmlFor="bank">Select bank</label>
-            <select
-              name="bank"
-              value={state.bank}
-              onChange={(e: FormEvent<HTMLSelectElement>) =>
-                handleChange({ bank: e.currentTarget.value })
-              }
-              className={styles.TransferForm_form_group_input}
-            >
-              {banks.map((item: any, index: number) => {
-                const { name, code } = item;
-                return (
-                  <option value={code} key={index}>
-                    {name}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className={styles.TransferForm_form_group}>
-            <label htmlFor="account-no">Account Number</label>
-            <input
-              type="text"
-              id="account_number"
-              name="account_number"
-              placeholder="enter account number"
-              value={state.account_number}
-              onChange={(e: FormEvent<HTMLInputElement>) =>
-                handleChange({ account_number: e.currentTarget.value })
-              }
-              className={styles.TransferForm_form_group_input}
-            />
-          </div>
-          <button type="submit" className={styles.TransferForm_form_btn}>
-            Confirm account
-          </button>
-        </form>
+          {({
+            values,
+            errors,
+            touched,
+            isValid,
+            dirty,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+          }) => (
+            <form className={styles.TransferForm_form} onSubmit={handleSubmit}>
+              <div className={styles.TransferForm_form_group}>
+                <label htmlFor="bank">Select bank</label>
+                <select
+                  name="bank"
+                  value={values.bank}
+                  onChange={handleChange}
+                  className={styles.TransferForm_form_group_input}
+                >
+                  {banks.map((item: any, index: number) => {
+                    const { name, code } = item;
+                    return (
+                      <option value={code} key={index}>
+                        {name}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              <div className={styles.TransferForm_form_group}>
+                <label htmlFor="account-no">Account Number</label>
+                <input
+                  type="text"
+                  id="account_number"
+                  name="account_number"
+                  placeholder="enter account number"
+                  value={values.account_number}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={styles.TransferForm_form_group_input}
+                />
+                {touched.account_number ? (
+                  <span className={styles.TransferForm_form_error}>
+                    {errors.account_number}
+                  </span>
+                ) : undefined}
+              </div>
+              <button
+                type="submit"
+                disabled={!isValid || !dirty}
+                className={styles.TransferForm_form_btn}
+              >
+                Confirm account
+              </button>
+            </form>
+          )}
+        </Formik>
       )}
-      {!!resolve_account && (
-        <>
+      {loading ? (
+        <PageLoader />
+      ) : (
+        !!resolve_account && (
           <CreateTransferForm
-            recipient_code={recipient?.recipient_code}
+            recipient_code={recipient?.recipient_code!}
             account_name={resolve_account.account_name}
             error={error}
           />
-        </>
+        )
       )}
     </section>
   );

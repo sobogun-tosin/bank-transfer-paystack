@@ -38,12 +38,12 @@
     &_btn {
       margin-top: 20px;
 
-      &:hover {
-        background-color: #d6d6d659;
-      }
-
       &:disabled {
         cursor: not-allowed;
+      }
+
+      &:hover {
+        background-color: #d6d6d659;
       }
     }
   }

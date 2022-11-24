@@ -15,7 +15,7 @@ const Home = () => {
       </div>
       <div className="hline"></div>
       <div className={styles.Home_container}>
-        <Link to={"/transfer"} className={styles.Home_container_links}>
+        <Link to={"/"} className={styles.Home_container_links}>
           <div>
             <CashStackIcon />
             <h4>Create Transfer</h4>

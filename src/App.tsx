@@ -11,7 +11,7 @@ function App() {
       <BrowserRouter>
         <Home />
         <Switch>
-          <Route path={"/transfer"} exact component={TransferForm} />
+          <Route path={"/"} exact component={TransferForm} />
           <Route path={"/transfer_history"} exact component={TransferHistory} />
           <Route path={"*"} component={ErrorPage} />
         </Switch>

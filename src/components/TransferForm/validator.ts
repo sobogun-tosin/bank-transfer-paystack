@@ -1,11 +1,11 @@
 import { object, string } from "yup";
 
 export const accountVerificationFormValidationSchema = object({
-  bank: string().required("Please enter bank"),
+  bank: string().required(),
   account_number: string()
     .required("Please enter bank number")
-    .min(10, "Invalid bank number")
-    .max(10, "Invalid bank number"),
+    .min(10, "Invalid bank number, account should have a mininum of 10 digits")
+    .max(10, "Invalid bank number, account should have a maximum of 10 digits"),
 });
 
 export const completeTransferValidationSchema = object({
